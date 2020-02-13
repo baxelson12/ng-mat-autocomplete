@@ -10,12 +10,17 @@ import { of, iif, Observable } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  // Form
   searchForm = new FormGroup({
     query: new FormControl('')
   })
 
+  // Get loading stream from service
   loading$: Observable<boolean> = this.gs.loading$; 
 
+  // Debounce for typing
+  // then destructure form since we only need query
+  // Then if it is a query longer than 3, send GET request
   searchResults$ = this.searchForm.valueChanges.pipe(
     debounceTime(100),
     switchMap(({query}) => 
