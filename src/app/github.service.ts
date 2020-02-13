@@ -20,7 +20,7 @@ export class GithubService {
   // Loading stream
   private readonly loading = new Subject<boolean>();
   get loading$(): Observable<boolean> {
-    return this.loading.pipe(tap(console.log));
+    return this.loading;
   }
 
 
