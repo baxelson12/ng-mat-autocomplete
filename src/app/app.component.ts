@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { GithubService } from './github.service';
-import { switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
+import { of, iif, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -18,12 +18,17 @@ export class AppComponent {
   // Get loading stream from service
   loading$: Observable<boolean> = this.gs.loading$; 
 
-  // Deconstruct form to just take the query
-  // Search on changes
+  // Debounce for typing
+  // then destructure form since we only need query
+  // Then if it is a query longer than 3, send GET request
   searchResults$ = this.searchForm.valueChanges.pipe(
-    switchMap(({query}) => this.gs.get(query))
+    debounceTime(100),
+    switchMap(({query}) => 
+      iif(() => query.length > 3,
+        this.gs.get(query),
+        of(null))
+    )
   );
 
   constructor(private gs: GithubService) { }
-
 }
