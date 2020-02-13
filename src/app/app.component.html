@@ -1,7 +1,8 @@
 <mat-toolbar color="primary">
     <span>Hello, autocomplete</span>
 <!-- ngIf so my http request is only called once-->
-        <form [formGroup]="searchForm" *ngIf="{results: searchResults$ | async, loading: loading$ | async} as obs">
+        <form [formGroup]="searchForm" 
+            *ngIf="{results: searchResults$ | async, loading: loading$ | async} as obs">
 <!-- Search input -->
             <mat-form-field appearance="legacy">
                 <input matInput [matAutocomplete]="autoComplete" formControlName="query">
@@ -20,7 +21,9 @@
                 </mat-option>
                 <!-- Actual payload -->
                 <ng-container *ngIf="!obs.loading">
-                    <mat-option *ngFor="let result of obs.results"> {{result.login}} </mat-option>
+                    <mat-option *ngFor="let result of obs.results"> 
+                        {{result.login}} 
+                    </mat-option>
                 </ng-container>
             </mat-autocomplete>
         </form>
