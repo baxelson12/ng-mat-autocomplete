@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, tap, delay, catchError } from 'rxjs/operators';
 import { of, Subject, Observable } from 'rxjs';
@@ -48,5 +48,10 @@ export class GithubService {
         return of([{ login: "Error from server" }]);
       })
     )
+  }
+
+  // Cleanup.
+  ngOnDestroy() {
+    this.loading.unsubscribe();
   }
 }
