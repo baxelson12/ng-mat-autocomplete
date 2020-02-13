@@ -43,6 +43,8 @@ export class GithubService {
       catchError((err) => {
         console.log(err);
         this.loading.next(false);
+        // Just remapping the data to show the error
+        // There are better ways of doing this
         return of([{ login: "Error from server" }]);
       })
     )
